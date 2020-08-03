@@ -1,20 +1,28 @@
-% gamma-SUP (Hung, 09/30/2013)
+% gamma-SUP (Hung, 08/03/2020)
 %
 % ----- INPUT -----
 % X: n by p data matrix 
-% s: minor tuning parameter (suggest to be 0.025)
 % tau: critical tuning parameter, needs to be tuned by phase-transition
-% blurring: 1 = blurrning (default)
+% s: minor tuning parameter (default: 0.025)
+% blurring: 1 = blurrning (default: 1)
 %
 % ----- OUTPUT -----
 % c_id: cluster membership id
 % Y_new: updated data points at convergence
+%
+% ex: gamma_sup(X, tau)
 
-function [c_id, Y_new] = gamma_sup(X, s, tau, blurring)
+function [c_id, Y_new] = gamma_sup(X, tau, s, blurring)
 
-if nargin < 4
+if ~exist('s','var')
+    s = 0.025;
+end
+
+if ~exist('blurring','var')
     blurring = 1;
 end
+
+
 err_th = max(max(abs(X)))/10000; % error threshold for stopping
 err = 999;
 max_iter = 150;
